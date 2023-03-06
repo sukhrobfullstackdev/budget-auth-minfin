@@ -2,13 +2,14 @@ package uz.fidobiznes.budgetauthminfin;
 
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
-    @Query("""
+    @Query(value = """
             select 
             e.FILIAL,
             e.ID,
@@ -26,7 +27,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
             e.PHONENUMBER,
             e.DATEOPEN,
             e.DATEEXPIRE,
-            e.CNTRIES,
+            e.CNTTRIES,
             e.NOTE,
             e.ACTION,
             e.STATE,
@@ -37,5 +38,5 @@ public interface UserRepository extends CrudRepository<User, Long> {
             from employee e
             where upper(e.LOGIN) = UPPER(:login)
             """)
-    Optional<User> findByLogin(String login);
+    Optional<User> findByLogin(@Param("login") String login);
 }
