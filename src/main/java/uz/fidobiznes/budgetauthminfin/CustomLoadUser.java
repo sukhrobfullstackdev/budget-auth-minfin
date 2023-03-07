@@ -17,11 +17,7 @@ public class CustomLoadUser implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> optionalUser = userRepository.findByLogin(username);
-        if (optionalUser.isPresent()) {
-            return optionalUser.get();
-        } else {
-            throw new UsernameNotFoundException(username + " is not found!");
-        }
+        return optionalUser.orElse(null);
     }
     @Transactional
     public UserDetails loadUserById(Long id){

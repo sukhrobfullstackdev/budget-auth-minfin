@@ -70,10 +70,10 @@ public class SecurityConfiguration {
         return new CustomLoadUser();
     }
 
-//    @Bean
-//    PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     public static PlainTextPasswordEncoder noopPasswordEncoder() {
@@ -89,8 +89,8 @@ public class SecurityConfiguration {
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService());
+        authenticationProvider.setPasswordEncoder(passwordEncoder());
         authenticationProvider.setPasswordEncoder(noopPasswordEncoder());
-//        authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
     }
 

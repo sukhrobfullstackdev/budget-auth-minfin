@@ -1,6 +1,7 @@
 package uz.fidobiznes.budgetauthminfin;
 
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,11 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<ResponseDTO> login(@RequestBody LoginDTO loginDTO) {
         return authService.loginUser(loginDTO);
     }
+//    @PostMapping("/login/reactive")
+//    public ResponseEntity<ResponseDTO> loginReactive(@RequestBody LoginDTO loginDTO) {
+//        return authService.loginUser(loginDTO);
+//    }
 }
