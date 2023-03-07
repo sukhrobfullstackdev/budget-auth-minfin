@@ -9,7 +9,7 @@ import uz.fidobiznes.budgetauthminfin.dto.LoginDTO;
 
 
 @RestController
-@RequestMapping(value = "/api/auth", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/auth")
 public class AuthController {
     private final AuthenticationService authService;
 

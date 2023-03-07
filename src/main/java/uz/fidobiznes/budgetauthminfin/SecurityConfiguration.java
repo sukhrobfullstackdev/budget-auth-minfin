@@ -3,6 +3,7 @@ package uz.fidobiznes.budgetauthminfin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,9 +14,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -23,7 +25,9 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.servlet.Filter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Configuration
 @EnableWebSecurity
@@ -35,16 +39,18 @@ import java.util.List;
 public class SecurityConfiguration {
     private final JWTFilter jwtFilter;
     private final JWTProvider jwtProvider;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public SecurityConfiguration(JWTFilter jwtFilter, JWTProvider jwtProvider) {
+    public SecurityConfiguration(JWTFilter jwtFilter, JWTProvider jwtProvider, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.jwtFilter = jwtFilter;
         this.jwtProvider = jwtProvider;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-            return http
+        return http
                 .cors()
                 .and()
                 .csrf().disable()
@@ -53,7 +59,7 @@ public class SecurityConfiguration {
                 .authenticationProvider(authenticationProvider())
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeHttpRequests(requests -> {
-                    requests.requestMatchers("/api/auth/login","/api/auth/login/").permitAll();
+                    requests.requestMatchers("/api/auth/login", "/api/auth/login/").permitAll();
                     requests.anyRequest().authenticated();
                 }).addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
@@ -64,14 +70,14 @@ public class SecurityConfiguration {
         return new CustomLoadUser();
     }
 
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+//    @Bean
+//    PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
 
     @Bean
-    PasswordEncoder noopPasswordEncoder() {
-            return NoOpPasswordEncoder.getInstance();
+    public static PlainTextPasswordEncoder noopPasswordEncoder() {
+        return (PlainTextPasswordEncoder) PlainTextPasswordEncoder.getInstance();
     }
 
     @Bean
@@ -84,7 +90,7 @@ public class SecurityConfiguration {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService());
         authenticationProvider.setPasswordEncoder(noopPasswordEncoder());
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
+//        authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
     }
 

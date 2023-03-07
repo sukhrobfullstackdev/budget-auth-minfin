@@ -30,6 +30,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-configuration-processor")
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+    implementation("javax.xml.bind:jaxb-api:2.3.0")
+    implementation("com.sun.xml.bind:jaxb-impl:2.2.5-b10")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation ("io.jsonwebtoken:jjwt:0.9.1")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")

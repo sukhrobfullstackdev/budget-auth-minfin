@@ -1,6 +1,7 @@
 package uz.fidobiznes.budgetauthminfin;
 
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -23,9 +24,8 @@ public class AuthenticationService  {
             Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getLogin(), loginDTO.getPassword()));
             User user = (User) authenticate.getPrincipal();
             return jwtProvider.generateToken(user.getUsername());
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+        } catch (BadCredentialsException e) {
+            throw new BadCredentialsException(e.getMessage());
         }
     }
-
 }

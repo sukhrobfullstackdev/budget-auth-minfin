@@ -18,7 +18,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
             e.STAFF,
             e.NAME,
             e.LOGIN,
-            decode(e.LOGIN,'MFFIDO','{noop}'|| emp.DecryptPassword(e.password), '{bcrypt}'||e.PASSWORD) as PASSWORD,
+            decode(e.LOGIN,'MFFIDO',emp.DecryptPassword(e.password), '{bcrypt}'||e.PASSWORD) as PASSWORD,
             e.FULLACCESS,
             e.MAXCONNECT,
             e.LISTIP,

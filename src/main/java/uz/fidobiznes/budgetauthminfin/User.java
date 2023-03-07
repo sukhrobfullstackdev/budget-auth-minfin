@@ -51,7 +51,7 @@ public class User implements UserDetails {
     private Date dateopen;
     private Date dateexpire;
     @Size(max = 2, message = "The 'cntries' field is longer than it should be!")
-    private Integer cntries;
+    private Integer cnttries;
     @Size(max = 200, message = "The 'note' field is longer than it should be!")
     private String note;
     @Size(max = 2, message = "The 'action' field is longer than it should be!")
@@ -63,7 +63,12 @@ public class User implements UserDetails {
     private Date date_correct;
     @Size(max = 6, message = "The 'emp' field is longer than it should be!")
     private Integer emp;
-//    private boolean isAccountNonExpired = true;
+
+    public User(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
+    //    private boolean isAccountNonExpired = true;
 //    private boolean isAccountNonLocked = true;
 //    private boolean isCredentialsNonExpired = true;
 //    private boolean isEnabled;
