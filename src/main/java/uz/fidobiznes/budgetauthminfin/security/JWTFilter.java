@@ -1,4 +1,4 @@
-package uz.fidobiznes.budgetauthminfin;
+package uz.fidobiznes.budgetauthminfin.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import uz.fidobiznes.budgetauthminfin.service.CustomLoadUser;
 
 import java.io.IOException;
 
@@ -16,7 +17,6 @@ import java.io.IOException;
 public class JWTFilter extends OncePerRequestFilter {
     private final CustomLoadUser customLoadUser;
     private final JWTProvider jwtProvider;
-
     public JWTFilter(CustomLoadUser customLoadUser, JWTProvider jwtProvider) {
         this.jwtProvider = jwtProvider;
         this.customLoadUser = customLoadUser;

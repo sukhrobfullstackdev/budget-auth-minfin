@@ -1,4 +1,4 @@
-package uz.fidobiznes.budgetauthminfin;
+package uz.fidobiznes.budgetauthminfin.customEncoders;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

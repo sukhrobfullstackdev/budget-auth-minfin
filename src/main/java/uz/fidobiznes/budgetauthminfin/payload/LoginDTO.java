@@ -1,4 +1,4 @@
-package uz.fidobiznes.budgetauthminfin.dto;
+package uz.fidobiznes.budgetauthminfin.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

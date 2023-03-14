@@ -1,9 +1,10 @@
-package uz.fidobiznes.budgetauthminfin;
+package uz.fidobiznes.budgetauthminfin.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 
 import javax.crypto.SecretKey;
 import java.security.Key;
@@ -18,6 +19,9 @@ public class JWTProvider {
 
     public String generateToken(String username) {
         return Jwts.builder().setSubject(username).setIssuedAt(new Date()).setExpiration(expireDate).signWith(SignatureAlgorithm.HS256, secretKey.getBytes()).compact();
+    }
+    public Mono<String> generateTokenReactive(String username) {
+        return Mono.just(Jwts.builder().setSubject(username).setIssuedAt(new Date()).setExpiration(expireDate).signWith(SignatureAlgorithm.HS256, secretKey.getBytes()).compact());
     }
 
 

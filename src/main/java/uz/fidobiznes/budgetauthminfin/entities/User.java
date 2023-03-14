@@ -1,4 +1,4 @@
-package uz.fidobiznes.budgetauthminfin;
+package uz.fidobiznes.budgetauthminfin.entities;
 
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -23,7 +23,7 @@ public class User implements UserDetails {
     private String filial;
     @Size(max = 5, message = "The id field is longer!")
     @Id
-    private Integer id;
+    private Long id;
     @Size(max = 2, message = "The 'deptlevel' field is longer than it should be!")
     private Integer deptlevel;
     @Size(max = 2, message = "The 'struct' field is longer than it should be!")

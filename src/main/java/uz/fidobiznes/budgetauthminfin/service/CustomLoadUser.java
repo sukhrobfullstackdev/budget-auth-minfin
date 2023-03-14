@@ -1,4 +1,4 @@
-package uz.fidobiznes.budgetauthminfin;
+package uz.fidobiznes.budgetauthminfin.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -6,8 +6,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import uz.fidobiznes.budgetauthminfin.entities.User;
+import uz.fidobiznes.budgetauthminfin.repositories.UserRepository;
 
 import java.util.Optional;
+
 
 @Service
 public class CustomLoadUser implements UserDetailsService {
@@ -19,6 +22,7 @@ public class CustomLoadUser implements UserDetailsService {
         Optional<User> optionalUser = userRepository.findByLogin(username);
         return optionalUser.orElse(null);
     }
+
     @Transactional
     public UserDetails loadUserById(Long id){
         return userRepository.findById(id).orElseThrow(

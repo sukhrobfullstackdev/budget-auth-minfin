@@ -1,10 +1,8 @@
-package uz.fidobiznes.budgetauthminfin;
+package uz.fidobiznes.budgetauthminfin.configuration;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -14,37 +12,33 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import uz.fidobiznes.budgetauthminfin.customEncoders.BCryptPasswordEncoder;
+import uz.fidobiznes.budgetauthminfin.security.JWTFilter;
+import uz.fidobiznes.budgetauthminfin.security.JWTProvider;
+import uz.fidobiznes.budgetauthminfin.customEncoders.PlainTextPasswordEncoder;
+import uz.fidobiznes.budgetauthminfin.service.CustomLoadUser;
 
-import javax.servlet.Filter;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Configuration
 @EnableWebSecurity
-@EnableJdbcRepositories
+@EnableJdbcRepositories(value = "uz.fidobiznes.budgetauthminfin.repositories")
+//@ComponentScan(basePackages = "uz.fidobiznes.budgetauthminfin.*")
 @EnableMethodSecurity(
         securedEnabled = true,
         jsr250Enabled = true
 )
 public class SecurityConfiguration {
     private final JWTFilter jwtFilter;
-    private final JWTProvider jwtProvider;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public SecurityConfiguration(JWTFilter jwtFilter, JWTProvider jwtProvider, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public SecurityConfiguration(JWTFilter jwtFilter) {
         this.jwtFilter = jwtFilter;
-        this.jwtProvider = jwtProvider;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Bean
@@ -59,7 +53,7 @@ public class SecurityConfiguration {
                 .authenticationProvider(authenticationProvider())
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeHttpRequests(requests -> {
-                    requests.requestMatchers("/api/auth/login", "/api/auth/login/").permitAll();
+                    requests.requestMatchers("/api/auth/login","/api/auth/login/reactive","/api/auth/login/reactive/", "/api/auth/login/").permitAll();
                     requests.anyRequest().authenticated();
                 }).addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
