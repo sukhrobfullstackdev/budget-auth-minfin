@@ -20,10 +20,11 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<ResponseDTO> login(@RequestBody LoginDTO loginDTO) {
-        return authService.loginUser(loginDTO);
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<ResponseDTO> login(@RequestBody LoginDTO loginDTO) {
+//        return authService.loginUser(loginDTO);
+//    }
+
     @PostMapping("/login/reactive")
     public ResponseEntity<Mono<ResponseDTO>> loginReactive(@RequestBody LoginDTO loginDTO) {
         return authService.loginUserReactive(loginDTO);

@@ -20,7 +20,7 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
-//    implementation("com.oracle.database.r2dbc:oracle-r2dbc:1.1.0")
+    implementation("com.oracle.database.r2dbc:oracle-r2dbc:1.1.0")
     implementation("org.springframework.boot:spring-boot-starter-webflux:3.0.4")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
     implementation("org.springdoc:springdoc-openapi-ui:1.6.10")
